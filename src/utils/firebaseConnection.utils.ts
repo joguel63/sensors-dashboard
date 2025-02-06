@@ -1,10 +1,9 @@
-import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD2_EwgcXH2WI_iEicfmBmLlqquJSUBsPM",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: "indicador-de-temperatura.firebaseapp.com",
   databaseURL: "https://indicador-de-temperatura-default-rtdb.firebaseio.com",
   projectId: "indicador-de-temperatura",
@@ -18,7 +17,5 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
-const analytics = getAnalytics(app);
 
-export { auth, db, provider, analytics };
-
+export { auth, db, provider };
