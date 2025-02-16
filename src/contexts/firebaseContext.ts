@@ -6,6 +6,7 @@ type FirebaseContextProps = {
   login: () => Promise<void>;
   logout: () => Promise<void>;
   data: { temperature: number; humidity: number; pressure: number } | null;
+  updateTimes: number;
 };
 
 export const FirebaseContext = createContext<FirebaseContextProps>({
@@ -13,4 +14,5 @@ export const FirebaseContext = createContext<FirebaseContextProps>({
   login: async () => {},
   logout: async () => {},
   data: null,
+  updateTimes: 0,
 });

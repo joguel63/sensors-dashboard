@@ -26,13 +26,17 @@ export const SensorHistoryChart: React.FC<{ sensorType: string }> = ({ sensorTyp
     const timestamps = history.map(({ timestamp }) => timestamp);
     return timestamps.sort((a, b) => (a > b ? 1 : -1));
   };
+  const sortData = (history: { timestamp: string; value: number }[]) => {
+    const data = history;
+    return data.sort((a, b) => (a.timestamp > b.timestamp ? 1 : -1));
+  };
 
   const chartData = {
     labels: sortTimestamps(history),
     datasets: [
       {
         label: `${name.toUpperCase()} en el tiempo`,
-        data: history.map((d) => d.value),
+        data: sortData(history).map(({ value }) => value),
         borderColor: "blue",
         backgroundColor: "rgba(0, 0, 255, 0.2)",
         borderWidth: 2,

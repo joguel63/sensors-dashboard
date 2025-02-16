@@ -28,6 +28,7 @@ export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [user, setUser] = useState<User | null>(null);
   const [data, setData] = useState<SensorData | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [updateTimes, setUpdateTimes] = useState(0);
 
   const login = async () => {
     await signInWithPopup(auth, provider).catch((error) =>
@@ -64,6 +65,7 @@ export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     if (!data) return;
 
     saveToFirestore(data);
+    setUpdateTimes((prev) => prev + 1);
   }, [data]);
 
   if (!isLoaded)
@@ -74,7 +76,7 @@ export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     );
 
   return (
-    <FirebaseContext.Provider value={{ user, login, logout, data }}>
+    <FirebaseContext.Provider value={{ user, login, logout, data, updateTimes }}>
       {children}
     </FirebaseContext.Provider>
   );

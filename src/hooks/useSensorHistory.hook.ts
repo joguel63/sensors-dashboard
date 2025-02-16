@@ -2,9 +2,11 @@ import { format } from "date-fns";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { dbFirebase } from "../utils/firebaseConnection.utils";
+import { useFirebaseContext } from "./useFirebaseContext.hook";
 
 export const useSensorHistory = (sensorType: string) => {
   const [history, setHistory] = useState<{ timestamp: string; value: number }[]>([]);
+  const { updateTimes } = useFirebaseContext();
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -15,13 +17,13 @@ export const useSensorHistory = (sensorType: string) => {
           timestamp: format(doc.data().timestamp.toDate(), "dd/MM/yyyy hh:mm:ss a"),
           value: doc.data()[sensorType],
         }));
-        setHistory(data);
+        setHistory(data.slice(0, 10));
       } catch (error) {
         console.error("Error fetching sensor history:", error);
       }
     };
     fetchHistory();
-  }, [sensorType]);
+  }, [sensorType, updateTimes]);
 
   return history;
 };
